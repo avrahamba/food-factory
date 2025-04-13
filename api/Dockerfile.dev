@@ -1,0 +1,29 @@
+ARG SERVICE_NAME="api"
+
+FROM composer:2 AS vendor
+
+FROM php:8.4-apache
+
+ARG SERVICE_NAME
+WORKDIR /${SERVICE_NAME}
+
+COPY . .
+COPY --from=vendor /usr/bin/composer /usr/bin/composer
+
+COPY Dockerfiles/date_timezone.ini /usr/local/etc/php/conf.d/date_timezone.ini
+COPY Dockerfiles/expose_php_off.ini /usr/local/etc/php/conf.d/expose_php_off.ini
+COPY Dockerfiles/vhost.conf /etc/apache2/sites-available/000-default.conf
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git zip unzip
+
+# PHPUnit
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+RUN chown -R www-data:www-data /${SERVICE_NAME} \
+    && find /${SERVICE_NAME} -type f -exec chmod 644 {} \; \
+    && find /${SERVICE_NAME} -type d -exec chmod 755 {} \; \
+    && chgrp -R www-data storage bootstrap/cache \
+    && chmod -R ug+rwx storage bootstrap/cache \
+    && a2enmod rewrite
