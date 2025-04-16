@@ -18,10 +18,10 @@ class CorsMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        $currentOrigin = 'https://food-factory.onrender.com/';
+        $currentOrigin = 'https://food-factory.onrender.com';
         $allowedOrigins = [
-            'https://food-factory.onrender.com/',
-            'https://www.food-factory.onrender.com/',
+            'https://food-factory.onrender.com',
+            'https://www.food-factory.onrender.com',
         ];
 
         // check allowed origins according to referer
