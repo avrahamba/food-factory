@@ -37,7 +37,7 @@ export const useHttpStore = defineStore("http", {
       const config = useRuntimeConfig();
       const env: string = config.public.env;
       if (env === "production") {
-        baseUrl = "https://food-factory-api-k73e.onrender.com/api";
+        baseUrl = "https://food-factory-api-k73e.onrender.com/api/";
       }
 
       const options: any = { signal: controller?.signal };
