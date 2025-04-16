@@ -4,6 +4,8 @@ FROM composer:2 AS vendor
 
 FROM php:8.4-apache
 
+RUN docker-php-ext-install pdo pdo_mysql
+
 ARG SERVICE_NAME
 WORKDIR /${SERVICE_NAME}
 
