@@ -1,0 +1,27 @@
+
+
+.title-page {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #1166b6;
+}
+
+.panel {
+    background-color: #fff;
+    color: #1166b6;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.q-field .q-field__label {
+    left: unset;
+    right: 12px;
+    transform-origin: right;
+}
+
+.fullscreen{
+    z-index: 600;
+}

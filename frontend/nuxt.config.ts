@@ -7,6 +7,7 @@ export default defineNuxtConfig({
       env: process.env.APP_ENV,
     },
   },
+  components: [{ path: "~/components" }],
   modules: [
     "@nuxt/fonts",
     "@nuxt/icon",
@@ -19,5 +20,13 @@ export default defineNuxtConfig({
     ],
     "@nuxt/ui",
     "nuxt-quasar-ui",
+    // "@nuxtjs/tailwindcss",
   ],
+  ui: {
+    // Make sure Tailwind is enabled in UI module
+    tailwindcss: {
+      exposeConfig: true,
+      viewer: true,
+    },
+  },
 });

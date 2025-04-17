@@ -59,7 +59,7 @@ export const useHttpStore = defineStore("http", {
         return resData.data || true;
       }
 
-      return resData;
+      return null;
     },
     async get(
       rout: string,

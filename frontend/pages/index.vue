@@ -9,8 +9,8 @@ const http = useHttpStore();
 const test: Ref<any> = ref(null);
 
 onMounted(async () => {
-  const res = await http.get("test");
-  test.value = res;
+  // const res = await http.get("test");
+  // test.value = res;
 });
 </script>
 
