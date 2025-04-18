@@ -28,6 +28,3 @@ Route::middleware([CorsMiddleware::class])->prefix('api')->group(function () {
     Route::post('orders/{orderId}/items', [OrderItemController::class, 'store']);
     Route::put('orders/{orderId}/items', [OrderItemController::class, 'updateByProduct']);
 });
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});

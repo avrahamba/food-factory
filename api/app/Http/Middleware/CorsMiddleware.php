@@ -21,6 +21,7 @@ class CorsMiddleware
         $currentOrigin = 'https://food-factory.onrender.com';
         $allowedOrigins = [
             'https://food-factory.onrender.com',
+            'https://food-factory.onrender.com/',
             'https://www.food-factory.onrender.com',
         ];
 
