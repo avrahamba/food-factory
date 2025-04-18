@@ -14,11 +14,15 @@ class Order extends Model
 
     protected $fillable = [
         'name',
-        'customer_name',
+        'customer_id',
         'price',
-        'customer_phone',
         'date'
     ];
+
+    public function customer()
+    {
+        return Customer::where('id', $this->customer_id)->first();
+    }
 
     protected $casts = [
         'price' => 'float'

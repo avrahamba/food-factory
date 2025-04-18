@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\ProductController;
@@ -27,4 +28,5 @@ Route::prefix('api')->group(function () {
     Route::put('orders/{orderId}/items/{orderItemId}', [OrderItemController::class, 'update']);
     Route::post('orders/{orderId}/items', [OrderItemController::class, 'store']);
     Route::put('orders/{orderId}/items', [OrderItemController::class, 'updateByProduct']);
+    Route::apiResource('customers', CustomerController::class);
 });

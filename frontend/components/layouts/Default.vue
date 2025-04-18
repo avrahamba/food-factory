@@ -30,16 +30,20 @@
             <q-item-section avatar>
               <q-icon name="inbox" />
             </q-item-section>
-
-            <q-item-section> קטלוג </q-item-section>
+            <q-item-section v-text="'קטלוג'" />
           </q-item>
 
           <q-item clickable v-ripple to="/orders">
             <q-item-section avatar>
               <q-icon name="star" />
             </q-item-section>
-
-            <q-item-section> הזמנות </q-item-section>
+            <q-item-section v-text="'הזמנות'" />
+          </q-item>
+          <q-item clickable v-ripple to="/customers">
+            <q-item-section avatar>
+              <q-icon name="person" />
+            </q-item-section>
+            <q-item-section v-text="'לקוחות'" />
           </q-item>
         </q-list>
       </q-scroll-area>

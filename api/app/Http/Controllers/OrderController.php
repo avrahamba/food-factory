@@ -25,8 +25,7 @@ class OrderController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
-            'customer_name' => 'required|string|max:255',
-            'customer_phone' => 'required|string|max:12',
+            'customer_id' => 'required|numeric|min:0',
             'date' => 'required|date',
         ]);
 

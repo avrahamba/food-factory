@@ -32,12 +32,6 @@ class CorsMiddleware
             $currentOrigin = 'https://food-factory.onrender.com';
         }
 
-        // Handle preflight OPTIONS request
-        if ($request->isMethod('OPTIONS')) {
-            $response = response()->json(['success' => true], 200);
-        } else {
-            $response = $next($request);
-        }
 
         $headers = [
             'Access-Control-Allow-Origin'   => $currentOrigin,
@@ -51,6 +45,11 @@ class CorsMiddleware
             header(header: $key . ': ' . $value);
         }
 
-        return $next($request);
+        // Handle preflight OPTIONS request
+        if ($request->isMethod('OPTIONS')) {
+            return response()->json(['success' => true], 200);
+        } else {
+            return $next($request);
+        }
     }
 }
