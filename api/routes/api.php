@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::middleware([CorsMiddleware::class])->prefix('api')->group(function () {
+Route::prefix('api')->group(function () {
     Route::apiResource('products', ProductController::class);
     Route::apiResource('orders', OrderController::class);
     Route::apiResource('orderItems', OrderItemController::class);
