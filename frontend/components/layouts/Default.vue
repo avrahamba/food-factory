@@ -9,7 +9,6 @@
       aria-label="Menu"
       class="menu-btn"
       @click="drawer = !drawer"
-      v-if="$q.screen.lt.sm"
     />
 
     <!-- Main Content -->
@@ -24,9 +23,8 @@
       overlay
       behavior="mobile"
       :width="200"
-      v-if="$q.screen.lt.sm"
     >
-      <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+      <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: '0' }">
         <q-list padding>
           <q-item clickable v-ripple to="/catalog">
             <q-item-section avatar>
