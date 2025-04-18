@@ -17,4 +17,9 @@ class Customer extends Model
         'location',
         'phone',
     ];
+
+    public function orders()
+    {
+        return Order::where('customer_id', $this->id)->get();
+    }
 }

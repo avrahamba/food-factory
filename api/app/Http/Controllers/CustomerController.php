@@ -39,7 +39,12 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer): JsonResponse
     {
-        return response()->json(['success' => true, 'data' => ['customer' => $customer]]);
+        $orders = $customer->orders();
+        return response()->json(['success' => true, 'data' =>
+        [
+            'customer' => $customer,
+            'orders' => $orders
+        ]]);
     }
 
     /**

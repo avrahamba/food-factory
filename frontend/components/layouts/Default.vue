@@ -49,10 +49,15 @@
       </q-scroll-area>
     </q-drawer>
   </q-layout>
+  <q-dialog v-model="loading">
+    <q-spinner color="primary" size="10em" :thickness="10" />
+  </q-dialog>
 </template>
 
 <script setup lang="ts">
 const drawer = ref(false);
+const http = useHttpStore();
+const loading = computed(() => http.loader);
 </script>
 
 <style scoped>

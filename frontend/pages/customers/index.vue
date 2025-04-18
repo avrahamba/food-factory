@@ -4,11 +4,24 @@
 
   <q-table
     :grid="$q.screen.lt.sm"
-    :rows="customers"
+    :rows="customersFiltered"
     :columns="columns"
     row-key="name"
     @row-click="onRowClick"
   >
+    <template v-slot:top-right>
+      <q-input
+        borderless
+        dense
+        debounce="300"
+        v-model="filter"
+        placeholder="Search"
+      >
+        <template v-slot:append>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+    </template>
     <template v-slot:item="props">
       <div
         class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
@@ -17,7 +30,12 @@
         <q-card bordered flat class="bg-grey-1">
           <q-separator />
           <q-list dense>
-            <q-item v-for="col in props.cols" :key="col.name">
+            <q-item
+              v-for="col in props.cols"
+              :key="col.name"
+              clickable
+              @click="onRowClick(null, props.row)"
+            >
               <q-item-section>
                 <q-item-label v-text="col.label" />
               </q-item-section>
@@ -25,15 +43,6 @@
                 <q-item-label caption v-text="props.row[col.name]" />
               </q-item-section>
             </q-item>
-            <q-item-section side>
-              <q-item-label caption>
-                <!-- <q-btn
-                  color="primary"
-                  label="עריכה"
-                  @click="onRowClick(null, props.row)"
-                /> -->
-              </q-item-label>
-            </q-item-section>
           </q-list>
         </q-card>
       </div>
@@ -63,20 +72,21 @@
 
 <script setup lang="ts">
 const http = useHttpStore();
+const router = useRouter();
 import Swal from "sweetalert2";
 const columns = [
-  {
-    name: "name",
-    required: true,
-    label: "שם",
-    sortable: true,
-    field: "name",
-  },
-  { name: "phone", align: "center", label: "טלפון", field: "phone" },
-  { name: "location", align: "center", label: "מיקום", field: "location" },
+  { name: "name", label: "שם", sortable: true, field: "name" },
+  { name: "phone", label: "טלפון", field: "phone" },
+  { name: "location", label: "מיקום", field: "location" },
 ];
 
 const customers: Ref<any[]> = ref([]);
+const filter = ref("");
+const customersFiltered = computed(() => {
+  return customers.value.filter((customer: any) => {
+    return customer.name.toLowerCase().includes(filter.value.toLowerCase());
+  });
+});
 
 async function init() {
   const res = await http.get("customers");
@@ -123,5 +133,7 @@ async function saveCustomer() {
   }
 }
 
-function onRowClick(e1: any, e2: any) {}
+function onRowClick(e1: any, e2: any) {
+  router.push(`/customers/${e2.id}`);
+}
 </script>

@@ -4,8 +4,15 @@
     <h2 class="order-title">פרטי הזמנה</h2>
     <div class="detailes-grid">
       <p>שם: {{ order.name }}</p>
-      <p>שם לקוח: {{ order.customer_name }}</p>
-      <p>טלפון לקוח: {{ order.customer_phone }}</p>
+      <p>
+        שם לקוח: {{ customer.name }}
+        <q-btn
+          color="primary"
+          label="כרטיס לקוח"
+          :to="`/customers/${customer.id}`"
+        />
+      </p>
+      <p>טלפון לקוח: {{ customer.phone }}</p>
       <p>תאריך ביצוע: {{ order.date }}</p>
       <p>הצעת מחיר: {{ order.price }} ש"ח</p>
       <p>מחיר מחושב: {{ calcPrice }} ש"ח</p>
@@ -224,6 +231,7 @@ const order = ref<any>(null);
 const orderItems = ref<any[]>([]);
 const products = ref<any[]>([]);
 const calcPrice = ref(0);
+const customer = ref<any>(null);
 
 async function init() {
   const resProduct = await http.get(`products`);
@@ -234,6 +242,7 @@ async function init() {
   order.value = res.order;
   orderItems.value = res.orderItems;
   calcPrice.value = res.calcPrice;
+  customer.value = res.customer;
 }
 
 onMounted(async () => {

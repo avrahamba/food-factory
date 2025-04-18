@@ -24,6 +24,7 @@ axios.interceptors.response.use(
 export const useHttpStore = defineStore("http", {
   state: () => ({
     callbackError: null as null | Function,
+    loader: false,
   }),
   actions: {
     async sendRequest(
@@ -39,24 +40,29 @@ export const useHttpStore = defineStore("http", {
       if (env === "production") {
         baseUrl = "https://food-factory-api-k73e.onrender.com/api/";
       }
+      try {
+        const options: any = { signal: controller?.signal };
+        const url = baseUrl + rout;
+        this.loader = true;
+        const res =
+          method === "get"
+            ? await axios.get(url, options)
+            : await axios[method](url, data, options);
+        this.loader = false;
 
-      const options: any = { signal: controller?.signal };
-      const url = baseUrl + rout;
-      const res =
-        method === "get"
-          ? await axios.get(url, options)
-          : await axios[method](url, data, options);
+        const resData = res.data;
+        if (withoutError) return resData;
 
-      const resData = res.data;
-      if (withoutError) return resData;
-
-      if (resData.success) {
-        if (resData.data?.notes?.length) {
-          resData.data.notes.forEach((note: any) => {
-            if (this.callbackError) this.callbackError(note);
-          });
+        if (resData.success) {
+          if (resData.data?.notes?.length) {
+            resData.data.notes.forEach((note: any) => {
+              if (this.callbackError) this.callbackError(note);
+            });
+          }
+          return resData.data || true;
         }
-        return resData.data || true;
+      } catch (e) {
+        this.loader = false;
       }
 
       return null;

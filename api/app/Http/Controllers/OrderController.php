@@ -40,7 +40,13 @@ class OrderController extends Controller
     {
         $orderItems = $order->orderItems();
         $calcPrice = $order->calcPrice();
-        return response()->json(['success' => true, 'data' => ['order' => $order, 'orderItems' => $orderItems, 'calcPrice' => $calcPrice]]);
+        $customer = $order->customer();
+        return response()->json(['success' => true, 'data' => [
+            'order' => $order,
+            'orderItems' => $orderItems,
+            'calcPrice' => $calcPrice,
+            'customer' => $customer
+        ]]);
     }
 
     /**
