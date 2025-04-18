@@ -17,40 +17,40 @@ class CorsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
-        $currentOrigin = 'https://food-factory.onrender.com';
         $allowedOrigins = [
             'https://food-factory.onrender.com',
-            'https://food-factory.onrender.com/',
             'https://www.food-factory.onrender.com',
         ];
 
-        // check allowed origins according to referer
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            $referer = $_SERVER['HTTP_REFERER'];
+        $origin = $request->header('Origin');
 
-            foreach ($allowedOrigins as $allowedOrigin) {
-                if (strpos($referer, $allowedOrigin) !== false) {
-                    $currentOrigin = $allowedOrigin;
-                    break;
-                }
-            }
+        // If origin is in our allowed list, set it as the allowed origin
+        if (in_array($origin, $allowedOrigins)) {
+            $currentOrigin = $origin;
+        } else {
+            // Default fallback
+            $currentOrigin = 'https://food-factory.onrender.com';
+        }
+
+        // Handle preflight OPTIONS request
+        if ($request->isMethod('OPTIONS')) {
+            $response = response()->json(['success' => true], 200);
+        } else {
+            $response = $next($request);
         }
 
         $headers = [
             'Access-Control-Allow-Origin'   => $currentOrigin,
             'Access-Control-Allow-Credentials'  => 'true',
             'Access-Control-Allow-Methods'  => 'GET, POST, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers'  => 'Content-Type, Authorization'
+            'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With',
+            'Access-Control-Max-Age' => '86400', // 24 hours
         ];
 
         foreach ($headers as $key => $value) {
             header(header: $key . ': ' . $value);
         }
 
-        if ($request->getMethod() === 'OPTIONS') {
-            return response()->json(['success' => true]);
-        }
         return $next($request);
     }
 }
