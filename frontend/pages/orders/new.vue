@@ -33,7 +33,7 @@ const createOrder = async () => {
     price: price.value,
   });
   if (res && res.id) {
-    router.push(`/admin/orders/${res.id}`);
+    router.push(`/orders/${res.id}`);
   } else {
     Swal.fire({
       title: "הזמנה לא נוצרה",

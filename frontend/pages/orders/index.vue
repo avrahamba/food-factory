@@ -1,15 +1,42 @@
 <template>
   <div>
     <h1 class="title-page">הזמנות</h1>
-    <q-btn color="primary" label="הוספת הזמנה" to="/admin/orders/new" />
+    <q-btn color="primary" label="הוספת הזמנה" to="/orders/new" />
 
     <q-table
+      :grid="$q.screen.lt.sm"
       title="הזמנות"
       :rows="orders"
       :columns="columns"
       row-key="name"
       @row-click="onRowClick"
-    />
+    >
+      <template v-slot:item="props">
+        <div
+          class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3 grid-style-transition"
+          :style="props.selected ? 'transform: scale(0.95);' : ''"
+        >
+          <q-card bordered flat class="bg-grey-1">
+            <q-separator />
+            <q-list dense>
+              <q-item
+                v-for="col in props.cols"
+                :key="col.name"
+                clickable
+                @click="onRowClick(null, props.row)"
+              >
+                <q-item-section>
+                  <q-item-label v-text="col.label" />
+                </q-item-section>
+                <q-item-section side>
+                  <q-item-label caption v-text="props.row[col.name]" />
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card>
+        </div>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -58,7 +85,7 @@ onMounted(async () => {
 });
 
 function onRowClick(e: any, e2: any) {
-  router.push(`/admin/orders/${e2.id}`);
+  router.push(`/orders/${e2.id}`);
 }
 </script>
 <style scoped>

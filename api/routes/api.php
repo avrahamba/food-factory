@@ -26,6 +26,7 @@ Route::middleware([CorsMiddleware::class])->prefix('api')->group(function () {
     Route::apiResource('orderItems', OrderItemController::class);
     Route::put('orders/{orderId}/items/{orderItemId}', [OrderItemController::class, 'update']);
     Route::post('orders/{orderId}/items', [OrderItemController::class, 'store']);
+    Route::put('orders/{orderId}/items', [OrderItemController::class, 'updateByProduct']);
 });
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

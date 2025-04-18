@@ -1,31 +1,57 @@
 <template>
-  <div class="main-layout">
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <nav class="nav">
-        <q-btn
-          to="/admin/catalog"
-          variant="ghost"
-          label="קטלוג"
-          color="primary"
-          class="btn"
-        />
-        <q-btn
-          to="/admin/orders"
-          variant="ghost"
-          label="הזמנות"
-          color="primary"
-          class="btn"
-        />
-      </nav>
-    </div>
+  <q-layout class="main-layout">
+    <q-btn
+      flat
+      dense
+      round
+      icon="menu"
+      color="primary"
+      aria-label="Menu"
+      class="menu-btn"
+      @click="drawer = !drawer"
+      v-if="$q.screen.lt.sm"
+    />
 
     <!-- Main Content -->
     <div class="main">
       <slot />
     </div>
-  </div>
+
+    <!-- Mobile Sidebar -->
+    <q-drawer
+      v-model="drawer"
+      side="right"
+      overlay
+      behavior="mobile"
+      :width="200"
+      v-if="$q.screen.lt.sm"
+    >
+      <q-scroll-area class="fit" :horizontal-thumb-style="{ opacity: 0 }">
+        <q-list padding>
+          <q-item clickable v-ripple to="/catalog">
+            <q-item-section avatar>
+              <q-icon name="inbox" />
+            </q-item-section>
+
+            <q-item-section> קטלוג </q-item-section>
+          </q-item>
+
+          <q-item clickable v-ripple to="/orders">
+            <q-item-section avatar>
+              <q-icon name="star" />
+            </q-item-section>
+
+            <q-item-section> הזמנות </q-item-section>
+          </q-item>
+        </q-list>
+      </q-scroll-area>
+    </q-drawer>
+  </q-layout>
 </template>
+
+<script setup lang="ts">
+const drawer = ref(false);
+</script>
 
 <style scoped>
 .main-layout {
@@ -49,5 +75,11 @@
 }
 .btn {
   margin-bottom: 10px;
+}
+
+.menu-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
 }
 </style>
